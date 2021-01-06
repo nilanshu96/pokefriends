@@ -2,8 +2,8 @@ import {Paper, makeStyles} from '@material-ui/core';
 
 const useStyles = makeStyles({
     root: {
-        overflow: 'scroll',
-        height: '800px'
+        overflowY: 'scroll',
+        height: '70vh',
     }
 })
 
@@ -12,7 +12,7 @@ const Scroll = (props) => {
     const classes = useStyles();
 
     return (
-        <Paper className={classes.root}>
+        <Paper className={classes.root} elevation={0}>
             {props.children}
         </Paper>
     )

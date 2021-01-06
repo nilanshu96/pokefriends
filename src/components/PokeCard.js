@@ -10,21 +10,22 @@ import { CardHeader } from '@material-ui/core';
 const useStyles = makeStyles( theme => ({
   root: {
     width: 200,
-   
+    height: 250,
     backgroundColor: theme.palette.secondary.dark
   },
   media: {
       height: '100%'
   },
   img: {
-      backgroundColor: theme.palette.secondary.main
+      backgroundColor: theme.palette.secondary.main,
+      objectFit: 'contain'
   },
   txt: {
       color: theme.palette.secondary.contrastText
   }
 }));
 
-const PokeCard = () => {
+const PokeCard = ({name, height, weight, img}) => {
 
     const classes = useStyles();
 
@@ -34,22 +35,22 @@ const PokeCard = () => {
         
         <CardHeader 
         //   titleTypographyProps= {{variant: 'h4'}}
-          title="Charizard"
+          title={name}
         />
 
         <CardMedia className={classes.img}
           component='img'
           height='100px'
           width='100px'
-          image="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png"
+          image={img}
           title="Contemplative Reptile"
         />
         <CardContent>
           <Typography variant="body1" component="p">
-            Height: 3
+            Height: {height}
           </Typography>
           <Typography variant="body1" component="p">
-            Weight: 40
+            Weight: {weight}
           </Typography>
         </CardContent>
       </CardActionArea>
