@@ -1,6 +1,7 @@
 import PokeCardList from './components/PokeCardList';
 import './App.css';
-import { Paper, Typography, withStyles } from '@material-ui/core';
+import { Paper, TextField, Typography, withStyles} from '@material-ui/core';
+import Skeleton from '@material-ui/lab/Skeleton';
 import React from 'react';
 import Scroll from './components/Scroll';
 
@@ -21,19 +22,36 @@ class App extends React.Component {
     }
   }
 
+  onSearchChange = (event) => {
+    this.setState({searchfield: event.target.value});
+  }
+
   render() {
+
+    const filteredPokemons = this.state.pokemons.filter(pokemon => pokemon.name.toLowerCase().includes(this.state.searchfield.toLowerCase()));
+
+    if(filteredPokemons.length === 0) {
+      return (
+        <Paper className={this.props.classes.root} square={true}>
+          <Typography variant="h1">PokeFriends</Typography>
+          <Skeleton variant="wave"/>
+        </Paper>
+      )
+    }
+
     return (
       <Paper className={this.props.classes.root} square={true}>
         <Typography variant="h1">PokeFriends</Typography>
+        <TextField variant="outlined" style={{margin: '20px'}} onChange={this.onSearchChange}/>
         <Scroll>
-          <PokeCardList pokemons={this.state.pokemons} />
+          <PokeCardList pokemons={filteredPokemons} />
         </Scroll>
       </Paper>
     );
   }
 
   async componentDidMount() {
-    const pokemonUrls = await fetch("https://pokeapi.co/api/v2/pokemon?offset=0&limit=100").then(resp => resp.json()).then(resp => resp.results.map(data => data.url));
+    const pokemonUrls = await fetch("https://pokeapi.co/api/v2/pokemon?offset=0&limit=150").then(resp => resp.json()).then(resp => resp.results.map(data => data.url));
     const pokemonPromises = pokemonUrls.map(url => fetch(url).then(resp => resp.json()));
     const pokemons = await Promise.all(pokemonPromises);
     this.setState({ pokemons: pokemons });
