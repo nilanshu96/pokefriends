@@ -1,6 +1,6 @@
 import PokeCardList from './components/PokeCardList';
 import './App.css';
-import { Paper, TextField, Typography, withStyles} from '@material-ui/core';
+import { Paper, TextField, Typography, withStyles } from '@material-ui/core';
 import Skeleton from '@material-ui/lab/Skeleton';
 import React from 'react';
 import Scroll from './components/Scroll';
@@ -9,6 +9,12 @@ const useStyles = {
   root: {
     height: '100%',
     textAlign: 'center'
+  },
+  txt: {
+    fontSize: '3rem',
+    '@media (min-width:600px)': {
+      fontSize: '5rem',
+    }
   }
 };
 
@@ -23,26 +29,26 @@ class App extends React.Component {
   }
 
   onSearchChange = (event) => {
-    this.setState({searchfield: event.target.value});
+    this.setState({ searchfield: event.target.value });
   }
 
   render() {
 
     const filteredPokemons = this.state.pokemons.filter(pokemon => pokemon.name.toLowerCase().includes(this.state.searchfield.toLowerCase()));
 
-    if(filteredPokemons.length === 0) {
+    if (filteredPokemons.length === 0) {
       return (
         <Paper className={this.props.classes.root} square={true}>
-          <Typography variant="h1">PokeFriends</Typography>
-          <Skeleton variant="wave"/>
+          <Typography className={this.props.classes.txt}>PokeFriends</Typography>
+          <Skeleton variant="wave" />
         </Paper>
       )
     }
 
     return (
       <Paper className={this.props.classes.root} square={true}>
-        <Typography variant="h1">PokeFriends</Typography>
-        <TextField variant="outlined" style={{margin: '20px'}} onChange={this.onSearchChange}/>
+        <Typography className={this.props.classes.txt}>PokeFriends</Typography>
+        <TextField variant="outlined" style={{ margin: '20px' }} onChange={this.onSearchChange} />
         <Scroll>
           <PokeCardList pokemons={filteredPokemons} />
         </Scroll>

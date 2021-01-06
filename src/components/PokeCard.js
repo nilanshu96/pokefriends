@@ -9,7 +9,6 @@ import { CardHeader } from '@material-ui/core';
 
 const useStyles = makeStyles( theme => ({
   root: {
-    width: 200,
     height: 250,
     backgroundColor: theme.palette.secondary.dark
   },
@@ -41,7 +40,7 @@ const PokeCard = ({name, height, weight, img}) => {
         <CardMedia className={classes.img}
           component='img'
           height='100px'
-          width='100px'
+          
           image={img}
           title="Contemplative Reptile"
         />
