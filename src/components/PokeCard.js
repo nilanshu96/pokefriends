@@ -47,10 +47,10 @@ const PokeCard = ({name, height, weight, img}) => {
         />
         <CardContent>
           <Typography variant="body1" component="p">
-            Height: {height}
+            Height: {parseInt(height)/10} meters
           </Typography>
           <Typography variant="body1" component="p">
-            Weight: {weight}
+            Weight: {parseInt(weight)/10} kg
           </Typography>
         </CardContent>
       </CardActionArea>
