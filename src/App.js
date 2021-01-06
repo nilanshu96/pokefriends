@@ -1,25 +1,32 @@
-import logo from './logo.svg';
+import PokeCard from './components/PokeCard';
 import './App.css';
+import { Paper, withStyles } from '@material-ui/core';
+import React from 'react';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const useStyles = {
+  root: {
+    height: '100%',
+    textAlign: 'center'
+  }
+};
+
+class App extends React.Component {
+
+  render() {
+    return (
+      <Paper className={this.props.classes.root} square={true}>
+        <PokeCard />
+      </Paper>
+    );
+  }
+
+  async componentDidMount() {
+    const pokemonUrls = await fetch("https://pokeapi.co/api/v2/pokemon?offset=0&limit=20").then(resp => resp.json()).then(resp => resp.results.map(data => data.url));
+    const pokemonPromises = pokemonUrls.map(url => fetch(url).then(resp => resp.json()));
+    const pokemons = await Promise.all(pokemonPromises);
+    console.log(pokemons);
+  }
+
 }
 
-export default App;
+export default withStyles(useStyles)(App);
