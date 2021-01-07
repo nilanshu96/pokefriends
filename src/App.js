@@ -24,7 +24,8 @@ class App extends React.Component {
     super();
     this.state = {
       pokemons: [],
-      searchfield: ''
+      searchfield: '',
+      hasLoaded: false
     }
   }
 
@@ -36,7 +37,7 @@ class App extends React.Component {
 
     const filteredPokemons = this.state.pokemons.filter(pokemon => pokemon.name.toLowerCase().includes(this.state.searchfield.toLowerCase()));
 
-    if (filteredPokemons.length === 0) {
+    if (filteredPokemons.length === 0 && !this.state.hasLoaded) {
       return (
         <Paper className={this.props.classes.root} square={true}>
           <Typography className={this.props.classes.txt}>PokeFriends</Typography>
@@ -60,7 +61,7 @@ class App extends React.Component {
     const pokemonUrls = await fetch("https://pokeapi.co/api/v2/pokemon?offset=0&limit=150").then(resp => resp.json()).then(resp => resp.results.map(data => data.url));
     const pokemonPromises = pokemonUrls.map(url => fetch(url).then(resp => resp.json()));
     const pokemons = await Promise.all(pokemonPromises);
-    this.setState({ pokemons: pokemons });
+    this.setState({ pokemons: pokemons, hasLoaded: true });
   }
 
 }
